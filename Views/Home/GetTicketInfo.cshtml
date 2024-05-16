@@ -1,0 +1,12 @@
+﻿@model IEnumerable<GoTicket.Models.Ticket>
+
+@{
+    ViewBag.Title = "ViewTicket";
+}
+
+@using (Html.BeginForm("ListTicketInfo", "Home", FormMethod.Get))
+{
+    <input type="text" name="ticketId" />
+    <input type="submit" value="Get Ticket Info" />
+}
+

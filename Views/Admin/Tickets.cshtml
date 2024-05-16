@@ -1,0 +1,38 @@
+﻿@model IEnumerable<GoTicket.Models.Ticket>
+@{
+    ViewBag.Title = "Vehicles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>Bilet Listesi</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>Ticket ID</th>
+            <th>Vehicle ID</th>
+            <th>Type</th>
+            <th>Deperture Date</th>
+            <th>Arrival Date</th>
+            <th>Deperture Location</th>
+            <th>Arrival Location</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ticket_id</td>
+                <td>@item.vehicle_id</td>
+                <td>@item.vehicle_type</td>
+                <td>@item.deperture_date</td>
+                <td>@item.arrival_date</td>
+                <td><a href="/Admin/DeleteTicket/@item.ticket_id" class="btn btn-danger">Delete</a></td>
+                <td><a href="/Admin/TakeTicketInfo/@item.ticket_id" class="btn btn-warning">Update</a></td>
+            </tr>
+        }
+    </table>
+    <a href="/Admin/NewTicket" class="btn btn-primary">New Ticket</a>
+</body>
+</html>

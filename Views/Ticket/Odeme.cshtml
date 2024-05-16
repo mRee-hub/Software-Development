@@ -1,0 +1,35 @@
+﻿@model GoTicket.Models.Payment
+
+@{
+    ViewBag.Title = "Ödeme";
+}
+
+<h2>Ödeme Bilgileri</h2>
+
+<p>Müşteri: @ViewBag.CustomerName @ViewBag.CustomerSurname</p>
+<p>Toplam Tutar: @ViewBag.PaymentAmount</p>
+
+@using (Html.BeginForm("Odeme", "Ticket", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.vehicle_id)
+    @Html.HiddenFor(model => model.customer_id)
+
+    <div>
+        <label for="cardNumber">Kart Numarası:</label>
+        @Html.TextBoxFor(model => model.card_number)
+    </div>
+    <div>
+        <label for="cardExpiration">Son Kullanma Tarihi:</label>
+        @Html.TextBoxFor(model => model.card_expiration)
+    </div>
+    <div>
+        <label for="cardCvc">CVC:</label>
+        @Html.TextBoxFor(model => model.card_cvc)
+    </div>
+    <div>
+        <label for="paymentType">Ödeme Türü:</label>
+        @Html.TextBoxFor(model => model.payment_type)
+    </div>
+    <input type="submit" value="Ödeme Yap" />
+
+}

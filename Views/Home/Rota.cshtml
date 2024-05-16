@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewBag.Title = "Rota";
+    Layout = "~/Views/Shared/Layout2.cshtml";
+}
+<head>
+    <style>
+        body {
+            background-image: url(https://nypost.com/wp-content/uploads/sites/2/2023/04/best-july-travel.gif);
+            background-repeat: no-repeat;
+            background-size: cover;
+            animation: playOnce 1s forwards;
+            animation-iteration-count: 1;
+        }
+
+        .prlogin9 {
+            width: 100%;
+            max-width: 1000px;
+            border: 2px solid #00fef5;
+            border-radius: 40px;
+            margin: 0 auto;
+            margin-top: 15%;
+            padding: 25px 25px 25px 25px;
+            font: italic;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background: #fff;
+        }
+
+            .prlogin9 .prloginic {
+                width: 100%;
+            }
+
+                .prlogin9 .prloginic .prloginforgot {
+                    width: 100%;
+                    text-align: right;
+                    padding: 5px;
+                }
+
+                    .prlogin9 .prloginic .prloginforgot a {
+                        text-decoration: none;
+                        color: #666;
+                    }
+
+        .header {
+            font-size: 25px;
+            line-height: 25px;
+            text-align: center;
+            margin-bottom: 15px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
+            font: italic;
+        }
+
+        .prloginbox {
+            margin: 10px, 10px, 10px, 10px;
+        }
+
+            .prloginbox label {
+                text-align: left;
+                display: grid;
+                margin-left: 15px;
+                margin-bottom: 5px;
+            }
+
+            .prloginbox input {
+                width: 100%;
+                padding: 15px 15px;
+                background: #f1f1f9;
+                border-radius: 15px;
+                border: 2px solid #c1c1c1;
+                outline: none;
+                transition: all .25s ease;
+            }
+
+                .prloginbox input:focus {
+                    border-color: #f04747;
+                }
+
+        .prbtn {
+            background: #f04747 !important;
+            color: #fff !important;
+            cursor: pointer;
+            border: 0 !important;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+    </style>
+
+
+</head>
+
+<script>
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <text>
+            alert('@ViewBag.Message');
+        </text>
+    }
+</script>
+<br />
+<br />
+<br />
+
+@using (Html.BeginForm("SeferiListele", "Home", FormMethod.Get))
+{
+    <input type="hidden" name="tasitTipi" value="@ViewBag.TasitTipi" />
+
+    <div class="prlogin9">
+        <div class="prloginic">
+            <div class="prloginbox">
+                <div class="row">
+                    <label class="col-md-5">
+                        <i style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans'; font:italic; font-size:large">
+                            Nereden  @Html.DropDownList("departure_location", (SelectList)ViewBag.Iller)
+                        </i>
+                    </label>
+
+                    <label class="col-md-5">
+                        <i style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans'; font:italic; font-size:large">
+                            Nereye  @Html.DropDownList("arrival_location", (SelectList)ViewBag.Iller)
+                        </i>
+                    </label>
+                </div>
+            </div>
+
+
+            <div class="prloginbox">
+                <label>
+                    <i style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans'; font:italic; font-size:large">
+                        Geliş Tarihi : <input style="margin-right:10px;" , type="date" name="arrival_date" />
+                        Dönüş Tarihi :  <input style="margin-left:10px;" , type="date" name="departure_date" />
+                    </i>
+                </label>
+            </div>
+            <br />
+            <br />
+            <div class="prloginbox">
+                <label>
+                    <i style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';  font:italic; font-size:large ; margin-left:300px;">
+                        <input type="submit" value="Ara" />
+                    </i>
+                </label>
+            </div>
+        </div>
+    </div>
+}
+

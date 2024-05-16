@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "_TicketInfoPartial";
+    Layout = "~/Views/Shared/Layout2.cshtml";
+}
+
+@model GoTicket.Models.Ticket
+
+@if (Model != null)
+{
+    <h2>Ticket Information</h2>
+    <div>
+        <p>ID: @Model.ticket_id</p>
+        <p>Departure Date: @Model.deperture_date</p>
+        <p>Arrival Date: @Model.arrival_date</p>
+        <p>Vehicle Type: @Model.vehicle_type</p>
+        <p>Vehicle ID: @Model.vehicle_id</p>
+    </div>
+}
+else
+{
+    <p>Bilet bulunamadı.</p>
+}
+

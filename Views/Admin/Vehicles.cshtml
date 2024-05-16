@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GoTicket.Models.Vehicle>
+@{
+    ViewBag.Title = "Vehicles";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h2>Araç Listesi</h2>
+    <table class="table table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Condition</th>
+            <th>Attribute</th>
+            <th>Deperture Location</th>
+            <th>Arrival Location</th>
+            <th>Deperture Date</th>
+            <th>Arrival Date</th>
+            <th>Total Amount</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.vehicle_id</td>
+                <td>@item.vehicle_type</td>
+                <td>@item.vehicle_condition</td>
+                <td>@item.vehicle_attribute</td>
+                <td>@item.departure_location</td>
+                <td>@item.arrival_location</td>
+                <td>@item.departure_date</td>
+                <td>@item.arrival_date</td>
+                <td>@item.total_amount</td>
+                <td><a href="/Admin/DeleteVehicle/@item.vehicle_id" class="btn btn-danger">Delete</a></td>
+                <td><a href="/Admin/TakeVehicleInfo/@item.vehicle_id" class="btn btn-warning">Update</a></td>
+            </tr>
+        }
+    </table>
+    <a href="/Admin/NewVehicle" class="btn btn-primary">New Vehicle</a>
+</body>
+</html>

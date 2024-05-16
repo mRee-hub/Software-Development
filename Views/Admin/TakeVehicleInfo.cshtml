@@ -1,0 +1,47 @@
+﻿@model GoTicket.Models.Vehicle
+@{
+    ViewBag.Title = "TakeCustomerInfo";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("UpdateVehicle", "Admin", FormMethod.Post))
+    {
+
+        @Html.LabelFor(x => x.vehicle_id, "ID")
+        @Html.TextBoxFor(x => x.vehicle_id, new { @class = "form-control", @readonly = "readonly" })
+        <br />
+        @Html.LabelFor(x => x.vehicle_type, "Vehicle Type")
+        @Html.TextBoxFor(x => x.vehicle_type, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.vehicle_condition, "Vehicle Condition")
+        @Html.TextBoxFor(x => x.vehicle_condition, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.vehicle_attribute, "Vehicle Attribute")
+        @Html.TextBoxFor(x => x.vehicle_attribute, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.departure_location, "Deperture Location")
+        @Html.TextBoxFor(x => x.departure_location, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.arrival_location, "Arrival Location")
+        @Html.TextBoxFor(x => x.arrival_location, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.departure_date, "Deperture Date")
+        @Html.TextBoxFor(x => x.departure_date, new { @class = "form-control", type = "datetime-local" })
+        <br />
+        @Html.LabelFor(x => x.arrival_date, "Arrival Date")
+        @Html.TextBoxFor(x => x.arrival_date, new { @class = "form-control", type = "datetime-local" })
+        <br />
+        @Html.LabelFor(x => x.total_amount, "Total Amount")
+        @Html.TextBoxFor(x => x.total_amount, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-success">Update Vehicle</button>
+
+    }
+</body>
+</html>
+

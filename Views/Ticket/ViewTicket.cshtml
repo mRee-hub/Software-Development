@@ -1,0 +1,114 @@
+﻿@model IEnumerable<GoTicket.Models.Ticket>
+@model IEnumerable<GoTicket.Models.Registration>
+
+@{
+    ViewBag.Title = "ViewTicket";
+    Layout = "~/Views/Shared/Layout2.cshtml";
+}
+
+<h2>ViewTicket</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.arrival_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.deperture_date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.number_of_customers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vehicle_type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Vehicle.vehicle_type)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.arrival_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.deperture_date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.number_of_customers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vehicle_type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Vehicle.vehicle_type)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ticket_id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ticket_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ticket_id })
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_fname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_lname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_pnumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.customer_password)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_fname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_lname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_pnumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer_password)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.customer_id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.customer_id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.customer_id })
+            </td>
+        </tr>
+    }
+
+</table>

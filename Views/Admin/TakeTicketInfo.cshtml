@@ -1,0 +1,35 @@
+﻿@model GoTicket.Models.Ticket
+@{
+    ViewBag.Title = "TakeCustomerInfo";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("UpdateTicket", "Admin", FormMethod.Post))
+    {
+
+        @Html.LabelFor(x => x.ticket_id, "Ticket ID")
+        @Html.TextBoxFor(x => x.ticket_id, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.vehicle_id, "Vehicle ID")
+        @Html.TextBoxFor(x => x.vehicle_id, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.vehicle_type, "Vehicle Type")
+        @Html.TextBoxFor(x => x.vehicle_type, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.deperture_date, "Deperture Date")
+        @Html.TextBoxFor(x => x.deperture_date, new { @class = "form-control", type = "datetime-local" })
+        <br />
+        @Html.LabelFor(x => x.arrival_date, "Arrival Date")
+        @Html.TextBoxFor(x => x.arrival_date, new { @class = "form-control", type = "datetime-local" })
+        <br />
+        <button class="btn btn-primary">Update Ticket</button>
+
+    }
+</body>
+</html>
+

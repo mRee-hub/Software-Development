@@ -1,0 +1,41 @@
+﻿@model GoTicket.Models.Registration
+@{
+    ViewBag.Title = "TakeCustomerInfo";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm("UpdateCustomer", "Admin", FormMethod.Post))
+    {
+
+        @Html.LabelFor(x => x.customer_id, "ID")
+        @Html.TextBoxFor(x => x.customer_id, new { @class = "form-control", @readonly = "readonly" })
+        <br />
+        @Html.LabelFor(x => x.customer_fname, "First Name")
+        @Html.TextBoxFor(x => x.customer_fname, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.customer_lname, "Last Name")
+        @Html.TextBoxFor(x => x.customer_lname, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.customer_pnumber, "Phone Number")
+        @Html.TextBoxFor(x => x.customer_pnumber, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.customer_address, "Address")
+        @Html.TextBoxFor(x => x.customer_address, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.customer_email, "Email")
+        @Html.TextBoxFor(x => x.customer_email, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.customer_password, "Password")
+        @Html.TextBoxFor(x => x.customer_password, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-success">Update Customer</button>
+
+    }
+</body>
+</html>
+

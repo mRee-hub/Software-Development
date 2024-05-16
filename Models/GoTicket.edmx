@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GoTicketModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="int" Nullable="false" />
+          <Property Name="admin_username" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="admin_password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'GoTicket.dbo.CustomerLogin' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="CustomerLogin">
+          <Key>
+            <PropertyRef Name="customer_email" />
+            <PropertyRef Name="customer_password" />
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="payment_amount" Type="int" Nullable="false" />
+          <Property Name="payment_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vehicle_id" Type="int" Nullable="false" />
+          <Property Name="customer_id" Type="int" Nullable="false" />
+          <Property Name="card_number" Type="int" Nullable="false" />
+          <Property Name="card_cvc" Type="int" Nullable="false" />
+          <Property Name="card_expiration" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="customer_fname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_lname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_pnumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_email" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="customer_password" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ticket_id" />
+          </Key>
+          <Property Name="ticket_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="arrival_date" Type="date" Nullable="false" />
+          <Property Name="deperture_date" Type="date" Nullable="false" />
+          <Property Name="number_of_customers" Type="int" />
+          <Property Name="vehicle_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vehicle_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="vehicle_id" />
+          </Key>
+          <Property Name="vehicle_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vehicle_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vehicle_condition" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vehicle_attribute" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="departure_location" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="arrival_location" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="arrival_date" Type="date" Nullable="false" />
+          <Property Name="departure_date" Type="date" Nullable="false" />
+          <Property Name="total_amount" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CustomerLogin_Registration">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="CustomerLogin" Type="Self.CustomerLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="CustomerLogin">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Registration">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vehicle_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="vehicle_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vehicle_id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="vehicle_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GoTicketModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vehicle" EntityType="Self.Vehicle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerLogin" EntityType="Self.CustomerLogin" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CustomerLogin].[customer_email] AS [customer_email], 
+    [CustomerLogin].[customer_password] AS [customer_password], 
+    [CustomerLogin].[customer_id] AS [customer_id]
+    FROM [dbo].[CustomerLogin] AS [CustomerLogin]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_CustomerLogin_Registration" Association="Self.FK_CustomerLogin_Registration">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="CustomerLogin" EntitySet="CustomerLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Registration" Association="Self.FK_Payment_Registration">
+            <End Role="Registration" EntitySet="Registration" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Vehicle" Association="Self.FK_Payment_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_Vehicle" Association="Self.FK_Ticket_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicle" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GoTicketModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="admin_id" />
+          </Key>
+          <Property Name="admin_id" Type="Int32" Nullable="false" />
+          <Property Name="admin_username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="admin_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="payment_id" />
+          </Key>
+          <Property Name="payment_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="payment_amount" Type="Int32" Nullable="false" />
+          <Property Name="payment_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vehicle_id" Type="Int32" Nullable="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <Property Name="card_number" Type="Int32" Nullable="false" />
+          <Property Name="card_cvc" Type="Int32" Nullable="false" />
+          <Property Name="card_expiration" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK_Payment_Registration" FromRole="Payment" ToRole="Registration" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Payment_Vehicle" FromRole="Payment" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="Registration">
+          <Key>
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="customer_fname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_lname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_pnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_password" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Registration" FromRole="Registration" ToRole="Payment" />
+          <NavigationProperty Name="CustomerLogins" Relationship="Self.FK_CustomerLogin_Registration" FromRole="Registration" ToRole="CustomerLogin" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="ticket_id" />
+          </Key>
+          <Property Name="ticket_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="arrival_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="deperture_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="number_of_customers" Type="Int32" />
+          <Property Name="vehicle_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vehicle_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Vehicle" Relationship="Self.FK_Ticket_Vehicle" FromRole="Ticket" ToRole="Vehicle" />
+        </EntityType>
+        <EntityType Name="Vehicle">
+          <Key>
+            <PropertyRef Name="vehicle_id" />
+          </Key>
+          <Property Name="vehicle_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vehicle_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vehicle_condition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="vehicle_attribute" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="departure_location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="arrival_location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="arrival_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="departure_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="total_amount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Vehicle" FromRole="Vehicle" ToRole="Payment" />
+          <NavigationProperty Name="Tickets" Relationship="Self.FK_Ticket_Vehicle" FromRole="Vehicle" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="CustomerLogin">
+          <Key>
+            <PropertyRef Name="customer_email" />
+            <PropertyRef Name="customer_password" />
+            <PropertyRef Name="customer_id" />
+          </Key>
+          <Property Name="customer_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="customer_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Registration" Relationship="Self.FK_CustomerLogin_Registration" FromRole="CustomerLogin" ToRole="Registration" />
+        </EntityType>
+        <Association Name="FK_Payment_Registration">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vehicle_id" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="vehicle_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CustomerLogin_Registration">
+          <End Role="Registration" Type="Self.Registration" Multiplicity="1" />
+          <End Role="CustomerLogin" Type="Self.CustomerLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Registration">
+              <PropertyRef Name="customer_id" />
+            </Principal>
+            <Dependent Role="CustomerLogin">
+              <PropertyRef Name="customer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_Vehicle">
+          <End Role="Vehicle" Type="Self.Vehicle" Multiplicity="1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Vehicle">
+              <PropertyRef Name="vehicle_id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="vehicle_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GoTicketEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Registrations" EntityType="Self.Registration" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Tickets" EntityType="Self.Ticket" />
+          <EntitySet Name="Vehicles" EntityType="Self.Vehicle" />
+          <EntitySet Name="CustomerLogins" EntityType="Self.CustomerLogin" />
+          <AssociationSet Name="FK_Payment_Registration" Association="Self.FK_Payment_Registration">
+            <End Role="Registration" EntitySet="Registrations" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Vehicle" Association="Self.FK_Payment_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CustomerLogin_Registration" Association="Self.FK_CustomerLogin_Registration">
+            <End Role="Registration" EntitySet="Registrations" />
+            <End Role="CustomerLogin" EntitySet="CustomerLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_Vehicle" Association="Self.FK_Ticket_Vehicle">
+            <End Role="Vehicle" EntitySet="Vehicles" />
+            <End Role="Ticket" EntitySet="Tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GoTicketModelStoreContainer" CdmEntityContainer="GoTicketEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="GoTicketModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="admin_id" ColumnName="admin_id" />
+                <ScalarProperty Name="admin_username" ColumnName="admin_username" />
+                <ScalarProperty Name="admin_password" ColumnName="admin_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="GoTicketModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="payment_id" ColumnName="payment_id" />
+                <ScalarProperty Name="payment_amount" ColumnName="payment_amount" />
+                <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+                <ScalarProperty Name="vehicle_id" ColumnName="vehicle_id" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="card_number" ColumnName="card_number" />
+                <ScalarProperty Name="card_cvc" ColumnName="card_cvc" />
+                <ScalarProperty Name="card_expiration" ColumnName="card_expiration" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Registrations">
+            <EntityTypeMapping TypeName="GoTicketModel.Registration">
+              <MappingFragment StoreEntitySet="Registration">
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+                <ScalarProperty Name="customer_fname" ColumnName="customer_fname" />
+                <ScalarProperty Name="customer_lname" ColumnName="customer_lname" />
+                <ScalarProperty Name="customer_pnumber" ColumnName="customer_pnumber" />
+                <ScalarProperty Name="customer_address" ColumnName="customer_address" />
+                <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+                <ScalarProperty Name="customer_password" ColumnName="customer_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="GoTicketModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="GoTicketModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="ticket_id" ColumnName="ticket_id" />
+                <ScalarProperty Name="arrival_date" ColumnName="arrival_date" />
+                <ScalarProperty Name="deperture_date" ColumnName="deperture_date" />
+                <ScalarProperty Name="number_of_customers" ColumnName="number_of_customers" />
+                <ScalarProperty Name="vehicle_type" ColumnName="vehicle_type" />
+                <ScalarProperty Name="vehicle_id" ColumnName="vehicle_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vehicles">
+            <EntityTypeMapping TypeName="GoTicketModel.Vehicle">
+              <MappingFragment StoreEntitySet="Vehicle">
+                <ScalarProperty Name="vehicle_id" ColumnName="vehicle_id" />
+                <ScalarProperty Name="vehicle_type" ColumnName="vehicle_type" />
+                <ScalarProperty Name="vehicle_condition" ColumnName="vehicle_condition" />
+                <ScalarProperty Name="vehicle_attribute" ColumnName="vehicle_attribute" />
+                <ScalarProperty Name="departure_location" ColumnName="departure_location" />
+                <ScalarProperty Name="arrival_location" ColumnName="arrival_location" />
+                <ScalarProperty Name="arrival_date" ColumnName="arrival_date" />
+                <ScalarProperty Name="departure_date" ColumnName="departure_date" />
+                <ScalarProperty Name="total_amount" ColumnName="total_amount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerLogins">
+            <EntityTypeMapping TypeName="GoTicketModel.CustomerLogin">
+              <MappingFragment StoreEntitySet="CustomerLogin">
+                <ScalarProperty Name="customer_email" ColumnName="customer_email" />
+                <ScalarProperty Name="customer_password" ColumnName="customer_password" />
+                <ScalarProperty Name="customer_id" ColumnName="customer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
